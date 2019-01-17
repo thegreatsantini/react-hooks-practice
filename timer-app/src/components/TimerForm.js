@@ -21,10 +21,18 @@ const styles = theme => ({
     // padding: 5,
     fontSize: 12
     // width: 200,
+  },
+  form: {
+    display: "flex"
+  },
+  buttonContainer: {
+    border: "solid red 2px",
+    display: "flex",
+    flexDirection: "column"
+  },
+  button: {
+    margin: 2
   }
-  //   dense: {
-  //     marginTop: 19,
-  //   },
 });
 
 function TimerForm(props) {
@@ -42,12 +50,12 @@ function TimerForm(props) {
       console.log("submited", formData);
     }
   };
-  const { classes } = props;
-  
+  const { classes, toggle } = props;
   return (
     <Paper elevation={1} className={classes.container}>
       <form
-        onSubmit={(e) => handleSubmit(e)}
+        className={classes.form}
+        onSubmit={e => handleSubmit(e)}
         noValidate
         autoComplete="off"
       >
@@ -92,15 +100,34 @@ function TimerForm(props) {
           />
         )}
         {currentField < 3 ? (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => stepThrough(currentField + 1)}
-          >
-            next
-          </Button>
+          <div className={classes.buttonContainer}>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => stepThrough(currentField + 1)}
+            >
+              next
+            </Button>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => toggle()}
+            >
+              cancel
+            </Button>
+          </div>
         ) : (
-          <Button variant="contained" color="secondary" onClick={handleSubmit}>
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            size="small"
+            onClick={handleSubmit}
+          >
             add timer
           </Button>
         )}
