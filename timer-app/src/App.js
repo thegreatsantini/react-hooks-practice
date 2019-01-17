@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-import Timer from './components/Timer'
+import EditableTimer from './components/EditableTimer'
+import TimerFormContainer from './components/TimerFormContainer'
 import Paper from "@material-ui/core/Paper";
 import Divider from '@material-ui/core/Divider'
 import Typography from "@material-ui/core/Typography";
@@ -24,11 +25,31 @@ const styles = theme => ({
 function App(props) {
   const [ timers, timerForm ] = useState([
     {
+      id: 0,
       title:"eggs",
       description: 'runny yoke',
-      time: 0,
+      time: "0:00:00",
+      running: false,
       isEditing: false,
-      completed: false,
+      completed: false
+    },
+    {
+      id : 1,
+      title:"chicken",
+      description: 'cook some chicken',
+      time: "0:00:00",
+      running: false,
+      isEditing: false,
+      completed: false
+    },
+    {
+      id: 2,
+      title:"run",
+      description: 'get healthy',
+      time: "0:00:00",
+      running: false,
+      isEditing: false,
+      completed: false
     }
   ])
   const { classes } = props;
@@ -43,7 +64,10 @@ function App(props) {
         Timer
       </Typography>
       <Divider/>
-      <Timer timers={timers} />
+      <TimerFormContainer />
+      {
+        timers.map( (timer, i ) => <EditableTimer key={i} timer={timer}/>)
+      }
     </Paper>
   );
 }
