@@ -3,13 +3,14 @@ import TimerForm from "./TimerForm";
 import AddTimerButton from "./AddTimerButton";
 
 function TimerFormContainer(props) {
-  let [newTimer, toggleform] = useState(false);
+  const [newTimer, toggleform] = useState(false);
   const toggleAdd = () => {
-    toggleform(true);
+    console.log('clicked')
+    toggleform(!newTimer);
   };
   return (
     <React.Fragment>
-      {!newTimer ? <AddTimerButton toggle={toggleAdd} /> : <TimerForm />}
+      {!newTimer ? <AddTimerButton toggle={toggleAdd} /> : <TimerForm toggle={toggleAdd}/>}
     </React.Fragment>
   );
 }
