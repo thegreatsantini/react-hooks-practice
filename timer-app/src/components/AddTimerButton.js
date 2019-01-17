@@ -17,7 +17,6 @@ const styles = theme => ({
 
 function AddTimerButton(props) {
   const { classes, toggle } = props;
-  console.log(toggle)
   return (
     <div>
       <Fab 
