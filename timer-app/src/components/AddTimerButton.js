@@ -7,7 +7,7 @@ const styles = theme => ({
   fab: {
     position: 'absolute',
     zIndex: 1,
-    bottom: 699,
+    bottom: 702,
     left: 250,
     right: 0,
     margin: '0 auto',
