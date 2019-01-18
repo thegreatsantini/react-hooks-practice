@@ -1,35 +1,37 @@
-import React from "react";
-import TimerForm from "./TimerForm";
+import React, { useState } from "react";
+import EditTimerForm from "./EditTimerForm";
 import Timer from "./Timer";
 import { withStyles } from "@material-ui/core";
 
 const styles = theme => ({
-    root: {
-      width: "100%",
-      margin: "10px",
-      maxWidth: 360,
-      backgroundColor: theme.palette.background.paper
-    },
-    button: {
-      margin: theme.spacing.unit
-    }
-  });
+  root: {
+    width: "100%",
+    margin: "10px",
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper
+  },
+  button: {
+    margin: theme.spacing.unit
+  }
+});
 
 function EditableTimer(props) {
-  const { id, title, description, time, running } = props.timer;
-//   const { editFormOpen } = this.state;
-
-//   if (editFormOpen) {
-//     return (
-//       <TimerForm
-//         id={id}
-//         title={title}
-//         description={description}
-//         onFormSubmit={this.handleSubmit}
-//         onFormClose={this.handleFormClose}
-//       />
-//     );
-//   }
+  const { id, title, description, time, running, limit } = props.timer;
+  const [timer, toggleEdit] = useState(false);
+  const closeForm = () => toggleEdit(false);
+  const openForm = () => toggleEdit(true);
+  if (timer) {
+    return (
+      <EditTimerForm
+        id={id}
+        title={title}
+        description={description}
+        limit={limit}
+        time={time}
+        toggle={closeForm}
+      />
+    );
+  }
   return (
     <Timer
       id={id}
@@ -37,7 +39,7 @@ function EditableTimer(props) {
       description={description}
       time={time}
       running={running}
-    //   onEditPress={this.handleEditPress}
+      editTimer={openForm}
     />
   );
 }
