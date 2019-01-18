@@ -35,7 +35,6 @@ function App(props) {
       time: 0,
       limit: 0,
       running: true,
-      isEditing: false,
       completed: false
     },
     {
@@ -45,7 +44,6 @@ function App(props) {
       time: 0,
       limit: 0,
       running: false,
-      isEditing: false,
       completed: false
     },
     {
@@ -55,11 +53,9 @@ function App(props) {
       time: 0,
       limit: 0,
       running: false,
-      isEditing: false,
       completed: false
     }
   ]);
-  console.log(timers)
   const addTimer = timer => {
     const newTimer = [...timers, timer];
     timerForm(newTimer);
