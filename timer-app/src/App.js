@@ -1,14 +1,18 @@
-import React, {useState} from "react";
-import EditableTimer from './components/EditableTimer'
-import TimerFormContainer from './components/TimerFormContainer'
+import React, { useState } from "react";
+import EditableTimer from "./components/EditableTimer";
+import TimerFormContainer from "./components/TimerFormContainer";
 import Paper from "@material-ui/core/Paper";
-import Divider from '@material-ui/core/Divider'
+import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-
+import {uuidGen} from './utils'
 
 const styles = theme => ({
   root: {
+    margin: 0,
+  },
+  paper: {
+    backgroundColor: "#f2efe8",
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
@@ -23,52 +27,62 @@ const styles = theme => ({
 });
 
 function App(props) {
-  const [ timers, timerForm ] = useState([
+  const [timers, timerForm] = useState([
     {
-      id: 0,
-      title:"eggs",
-      description: 'runny yoke',
-      time: "0:00:00",
+      id : uuidGen(),
+      title: "eggs",
+      description: "runny yoke",
+      time: 0,
+      limit: 0,
+      running: true,
+      isEditing: false,
+      completed: false
+    },
+    {
+      id: uuidGen(),
+      title: "chicken",
+      description: "cook some chicken",
+      time: 0,
+      limit: 0,
       running: false,
       isEditing: false,
       completed: false
     },
     {
-      id : 1,
-      title:"chicken",
-      description: 'cook some chicken',
-      time: "0:00:00",
-      running: false,
-      isEditing: false,
-      completed: false
-    },
-    {
-      id: 2,
-      title:"run",
-      description: 'get healthy',
-      time: "0:00:00",
+      id: uuidGen(),
+      title: "run",
+      description: "get healthy",
+      time: 0,
+      limit: 0,
       running: false,
       isEditing: false,
       completed: false
     }
-  ])
+  ]);
+  console.log(timers)
+  const addTimer = timer => {
+    const newTimer = [...timers, timer];
+    timerForm(newTimer);
+  };
   const { classes } = props;
   return (
-    <Paper className={classes.root} elevation={1}>
-      <Typography
-        className={classes.title}
-        component="h2"
-        variant="h3"
-        gutterBottom
-      >
-        Timer
-      </Typography>
-      <Divider/>
-      <TimerFormContainer />
-      {
-        timers.map( (timer, i ) => <EditableTimer key={i} timer={timer}/>)
-      }
-    </Paper>
+    <div className={classes.root}>
+      <Paper className={classes.paper} elevation={8}>
+        <Typography
+          className={classes.title}
+          component="h2"
+          variant="h3"
+          gutterBottom
+        >
+          Timer
+        </Typography>
+        <Divider style={{marginBottom: '20px'}}/>
+        <TimerFormContainer add={addTimer} />
+        {timers.map((timer, i) => (
+          <EditableTimer key={i} timer={timer} />
+        ))}
+      </Paper>
+    </div>
   );
 }
 
