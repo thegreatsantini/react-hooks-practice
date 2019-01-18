@@ -7,14 +7,14 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-
+import CurrentTime from "./CurrentTime";
 import { withStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 
 const styles = theme => ({
   root: {
     width: "100%",
-    margin: "10px",
+    margin: "10px 0",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper
   },
@@ -24,11 +24,10 @@ const styles = theme => ({
 });
 
 const toggleReset = state => (state > 0 ? "true" : "none");
-
 function Timer(props) {
-  const { title, description, time, running, classes } = props;
+  const { title, description, time, running, classes, id, editTimer } = props;
   return (
-    <Card className={classes.root}>
+    <Card id={id} className={classes.root}>
       <CardContent>
         <List component="nav">
           <Typography
@@ -63,7 +62,7 @@ function Timer(props) {
         >
           Reset
         </Button>
-        <Button color="secondary" className={classes.button} size="small">
+        <Button color="secondary" className={classes.button} size="small" onClick={editTimer}>
           Edit
         </Button>
         {/* <IconButton className={classes.button} aria-label="Delete">
