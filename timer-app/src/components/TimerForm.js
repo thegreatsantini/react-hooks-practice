@@ -4,7 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-
+import {uuidGen} from '../utils'
 const styles = theme => ({
   container: {
     // display: "flex",
@@ -26,7 +26,6 @@ const styles = theme => ({
     display: "flex"
   },
   buttonContainer: {
-    border: "solid red 2px",
     display: "flex",
     flexDirection: "column"
   },
@@ -37,17 +36,24 @@ const styles = theme => ({
 
 function TimerForm(props) {
   const [formData, setValue] = useState({
+    id: uuidGen(),
     title: "",
     description: "",
-    limit: ""
+    time: 0,
+    running: false,
+    isEditing: false,
+    completed: false
   });
   let [currentField, stepThrough] = useState(0);
   const handleSubmit = e => {
+    const { add } = props;
     e.preventDefault();
-    if (currentField < 3) {
+    if (currentField < 2) {
       stepThrough(currentField + 1);
     } else {
-      console.log("submited", formData);
+      add(formData);
+      stepThrough(0)
+      toggle()
     }
   };
   const { classes, toggle } = props;
@@ -99,7 +105,7 @@ function TimerForm(props) {
             className={classes.textField}
           />
         )}
-        {currentField < 3 ? (
+        {currentField < 2 ? (
           <div className={classes.buttonContainer}>
             <Button
               className={classes.button}
@@ -126,7 +132,8 @@ function TimerForm(props) {
             variant="contained"
             color="secondary"
             size="small"
-            onClick={handleSubmit}
+            onSubmit={e => handleSubmit(e)}
+            onClick={e => handleSubmit(e)}
           >
             add timer
           </Button>
