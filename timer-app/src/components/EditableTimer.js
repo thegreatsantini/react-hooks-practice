@@ -17,7 +17,7 @@ const styles = theme => ({
 
 function EditableTimer(props) {
   const { id, title, description, time, limit } = props.timer;
-  const {edit,remove, index} = props
+  const {edit,remove,updateTime, index} = props
   const [bool, toggleEdit] = useState(false);
   const toggleForm = () => toggleEdit(!bool)
   
@@ -38,10 +38,12 @@ function EditableTimer(props) {
   return (
     <Timer
       id={id}
+      index={index}
       title={title}
       description={description}
       time={time}
       editTimer={toggleForm}
+      update={updateTime}
     />
   );
 }
