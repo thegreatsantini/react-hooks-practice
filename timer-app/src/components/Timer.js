@@ -29,7 +29,16 @@ const styles = theme => ({
 });
 
 function Timer(props) {
-  const { title, description, time, classes, id, editTimer } = props;
+  const {
+    title,
+    description,
+    time,
+    classes,
+    id,
+    editTimer,
+    index,
+    update
+  } = props;
   const [isRunning, runTimer] = useState(false);
   return (
     <Card id={id} className={classes.root}>
@@ -41,7 +50,13 @@ function Timer(props) {
             variant="h5"
             gutterBottom
           >
-            {!isRunning ? time : <IncrementTime />}
+            {!isRunning ? (
+              time
+            ) : (
+              <div id="time">
+                <IncrementTime startingTime={time} />
+              </div>
+            )}
           </Typography>
           <ListItem button>
             <ListItemText primary={title} secondary={description} />
@@ -60,8 +75,18 @@ function Timer(props) {
             Start
           </Button>
         ) : (
-          <Button onClick={()=>runTimer(false)} color="inherit" className={classes.button} size="small">
-            Reset
+          <Button
+            color="inherit"
+            className={classes.button}
+            size="small"
+            onClick={function(e) {
+              const item = document.getElementById("time");
+              update(index, item.textContent);
+              runTimer(false);
+              // console.log('clicked', )
+            }}
+          >
+            Stop
           </Button>
         )}
         <Button
