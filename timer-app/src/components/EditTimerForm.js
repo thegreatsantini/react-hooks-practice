@@ -4,10 +4,9 @@ import Card from "@material-ui/core/Card";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import { uuidGen } from "../utils";
 import { Typography } from "@material-ui/core";
+
 const styles = theme => ({
   card: {
     display: "flex",
@@ -16,6 +15,11 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2
     // margin: "8px"
+  },
+  title: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -38,10 +42,18 @@ const styles = theme => ({
   }
 });
 
-function TimerForm(props) {
-  const { classes, toggle, title, description, limit, time } = props;
+function EditTimerForm(props) {
+  const {
+    classes,
+    toggle,
+    title,
+    description,
+    limit,
+    time,
+    edit,
+    index
+  } = props;
   const [formData, setValue] = useState({
-    id: uuidGen(),
     title,
     description,
     time,
@@ -49,15 +61,17 @@ function TimerForm(props) {
     running: false,
     completed: false
   });
+
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(formData)
+    edit(index, formData);
+    toggle()
   };
   return (
     <Card className={classes.card}>
       <CardContent>
         <Typography
-          //   className={classes.title}
+          className={classes.title}
           component="h2"
           variant="h6"
           gutterBottom
@@ -73,7 +87,7 @@ function TimerForm(props) {
           <div className={classes.formContainer}>
             <TextField
               id="title"
-              value={title}
+              placeholder={title}
               onChange={e =>
                 setValue({
                   ...formData,
@@ -86,7 +100,7 @@ function TimerForm(props) {
 
             <TextField
               id="description"
-              value={description}
+              placeholder={description}
               onChange={e =>
                 setValue({
                   ...formData,
@@ -97,7 +111,7 @@ function TimerForm(props) {
             />
             <TextField
               id="limit"
-              value={limit}
+              placeholder={JSON.stringify(limit)}
               onChange={e =>
                 setValue({
                   ...formData,
@@ -127,6 +141,15 @@ function TimerForm(props) {
             >
               save
             </Button>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={e => console.log('remove', index)}
+            >
+              delete
+            </Button>
           </div>
         </form>
       </CardContent>
@@ -134,8 +157,4 @@ function TimerForm(props) {
   );
 }
 
-TimerForm.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(TimerForm);
+export default withStyles(styles)(EditTimerForm);
