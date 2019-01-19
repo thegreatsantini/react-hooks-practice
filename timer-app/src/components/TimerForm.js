@@ -40,7 +40,6 @@ function TimerForm(props) {
     title: "",
     description: "",
     time: 0,
-    running: false,
     isEditing: false,
     completed: false
   });
@@ -95,7 +94,7 @@ function TimerForm(props) {
         {currentField === 2 && (
           <TextField
             id="limit"
-            label="x minutes"
+            label="number"
             onChange={e =>
               setValue({
                 ...formData,

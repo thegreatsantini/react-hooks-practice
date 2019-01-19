@@ -58,7 +58,6 @@ function EditTimerForm(props) {
     description,
     time,
     limit,
-    running: false,
     completed: false
   });
 
