@@ -5,11 +5,10 @@ import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import {uuidGen} from './utils'
 
 const styles = theme => ({
   root: {
-    margin: 0,
+    margin: 0
   },
   paper: {
     backgroundColor: "#f2efe8",
@@ -29,36 +28,39 @@ const styles = theme => ({
 function App(props) {
   const [timers, timerForm] = useState([
     {
-      id : uuidGen(),
       title: "eggs",
       description: "runny yoke",
       time: 0,
       limit: 0,
-      running: true,
       completed: false
     },
     {
-      id: uuidGen(),
       title: "chicken",
       description: "cook some chicken",
       time: 0,
       limit: 0,
-      running: false,
       completed: false
     },
     {
-      id: uuidGen(),
       title: "run",
       description: "get healthy",
       time: 0,
       limit: 0,
-      running: false,
       completed: false
     }
   ]);
   const addTimer = timer => {
     const newTimer = [...timers, timer];
     timerForm(newTimer);
+  };
+  const editTimer = (i, changes) => {
+    const applyChanges = timers.map((val, index) => {
+      if (index === i) {
+        return changes;
+      }
+      return val;
+    });
+    timerForm(applyChanges);
   };
   const { classes } = props;
   return (
@@ -72,10 +74,15 @@ function App(props) {
         >
           Timer
         </Typography>
-        <Divider style={{marginBottom: '20px'}}/>
+        <Divider style={{ marginBottom: "20px" }} />
         <TimerFormContainer add={addTimer} />
         {timers.map((timer, i) => (
-          <EditableTimer key={i} timer={timer} />
+          <EditableTimer
+            edit={(i, changes) => editTimer(i, changes)}
+            key={i}
+            index={i}
+            timer={timer}
+          />
         ))}
       </Paper>
     </div>
