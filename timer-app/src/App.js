@@ -62,6 +62,10 @@ function App(props) {
     });
     timerForm(applyChanges);
   };
+  const removeTimer = (index) => {
+    const applyChanges = timers.filter( (val, i) => i != index);
+    timerForm(applyChanges)
+  }
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -78,6 +82,7 @@ function App(props) {
         <TimerFormContainer add={addTimer} />
         {timers.map((timer, i) => (
           <EditableTimer
+            remove={ (i) => removeTimer(i) }
             edit={(i, changes) => editTimer(i, changes)}
             key={i}
             index={i}

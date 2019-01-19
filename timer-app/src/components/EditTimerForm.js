@@ -50,7 +50,8 @@ function EditTimerForm(props) {
     limit,
     time,
     edit,
-    index
+    index,
+    remove
   } = props;
   const [formData, setValue] = useState({
     title,
@@ -145,7 +146,10 @@ function EditTimerForm(props) {
               variant="contained"
               color="primary"
               size="small"
-              onClick={e => console.log('remove', index)}
+              onClick={e =>  {
+                remove(index)
+                toggle()
+              }}
             >
               delete
             </Button>
