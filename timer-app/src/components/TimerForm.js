@@ -4,7 +4,6 @@ import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import {uuidGen} from '../utils'
 const styles = theme => ({
   container: {
     // display: "flex",
@@ -36,10 +35,9 @@ const styles = theme => ({
 
 function TimerForm(props) {
   const [formData, setValue] = useState({
-    id: uuidGen(),
     title: "",
     description: "",
-    time: 0,
+    time: '00:00:00',
     isEditing: false,
     completed: false
   });
@@ -51,8 +49,8 @@ function TimerForm(props) {
       stepThrough(currentField + 1);
     } else {
       add(formData);
-      stepThrough(0)
-      toggle()
+      stepThrough(0);
+      toggle();
     }
   };
   const { classes, toggle } = props;
@@ -75,7 +73,6 @@ function TimerForm(props) {
               })
             }
             className={classes.textField}
-            //   margin="normal"
           />
         )}
         {currentField === 1 && (
@@ -94,13 +91,14 @@ function TimerForm(props) {
         {currentField === 2 && (
           <TextField
             id="limit"
-            label="number"
-            onChange={e =>
-              setValue({
+            label="limit"
+            onChange={e => {
+              const setLimit = e.target.value.split('').filter(val => parseInt(val) || val === '.').join('')
+               setValue({
                 ...formData,
-                [e.target.id]: e.target.value
-              })
-            }
+                [e.target.id]: setLimit
+              });
+            }}
             className={classes.textField}
           />
         )}
