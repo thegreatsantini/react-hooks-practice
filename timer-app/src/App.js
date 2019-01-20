@@ -30,27 +30,27 @@ function App(props) {
     {
       title: "eggs",
       description: "runny yoke",
-      time: 0,
+      time: "00:00:00",
       limit: 0,
       completed: false
     },
     {
       title: "chicken",
       description: "cook some chicken",
-      time: 0,
+      time: "00:00:00",
       limit: 0,
       completed: false
     },
     {
       title: "run",
       description: "get healthy",
-      time: 0,
+      time: "00:00:00",
       limit: 0,
       completed: false
     }
   ]);
   const addTimer = timer => {
-    const newTimer = [...timers, timer];
+    const newTimer = [timer, ...timers];
     timerForm(newTimer);
   };
   const editTimer = (i, changes) => {
