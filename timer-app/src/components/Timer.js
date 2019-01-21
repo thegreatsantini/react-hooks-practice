@@ -35,107 +35,99 @@ const styles = theme => ({
 });
 
 function Timer(props) {
-  const {
-    title,
-    description,
-    time,
-    classes,
-    id,
-    editTimer,
-    index,
-    update
-  } = props;
+  const { title, description, time, classes, editTimer, index, update } = props;
   const [isRunning, runTimer] = useState(false);
   const [display, displayReset] = useState(false);
-  
+
+
   return (
-    <Card id={id} className={classes.root}>
-      <CardContent>
-        <Typography
-          className={classes.time}
-          component="h2"
-          variant="h5"
-          gutterBottom
-        >
+      <Card className={classes.root}>
+        <CardContent>
+          <Typography
+            className={classes.time}
+            component="h2"
+            variant="h5"
+            gutterBottom
+          >
+            {!isRunning ? (
+              <div id="time">{time}</div>
+            ) : (
+              <div id="time">
+                <IncrementTime startingTime={time} />
+              </div>
+            )}
+          </Typography>
+          <div className={classes.info}>
+            <Typography
+              className={classes.title}
+              component="h2"
+              variant="h5"
+              gutterBottom
+            >
+              {title}
+            </Typography>
+            <Typography
+              className={classes.description}
+              component="h2"
+              variant="h5"
+              gutterBottom
+            >
+              {description}
+            </Typography>
+          </div>
+          <Divider />
+        </CardContent>
+        <CardActions>
           {!isRunning ? (
-            <div id="time">{time}</div>
+            <Button
+              color="primary"
+              onClick={() => {
+                displayReset(true);
+                runTimer(true);
+              }}
+              className={classes.button}
+              size="small"
+            >
+              Start
+            </Button>
           ) : (
-            <div id="time">
-              <IncrementTime startingTime={time} />
-            </div>
+            <Button
+              color="inherit"
+              className={classes.button}
+              size="small"
+              onClick={function() {
+                const currentTime = document.getElementById("time");
+                update(index, currentTime.textContent);
+                runTimer(false);
+              }}
+            >
+              Stop
+            </Button>
           )}
-        </Typography>
-        <div className={classes.info}>
-          <Typography
-            className={classes.title}
-            component="h2"
-            variant="h5"
-            gutterBottom
-          >
-            {title}
-          </Typography>
-          <Typography
-            className={classes.description}
-            component="h2"
-            variant="h5"
-            gutterBottom
-          >
-            {description}
-          </Typography>
-        </div>
-        <Divider />
-      </CardContent>
-      <CardActions>
-        {!isRunning ? (
-          <Button
-            color="primary"
-            onClick={() => {
-              displayReset(true);
-              runTimer(true);
-            }}
-            className={classes.button}
-            size="small"
-          >
-            Start
-          </Button>
-        ) : (
-          <Button
-            color="inherit"
-            className={classes.button}
-            size="small"
-            onClick={function() {
-              const currentTime = document.getElementById("time");
-              update(index, currentTime.textContent);
-              runTimer(false);
-            }}
-          >
-            Stop
-          </Button>
-        )}
-        {display && (
+          {display && (
+            <Button
+              color="secondary"
+              className={classes.button}
+              size="small"
+              onClick={() => {
+                runTimer(false);
+                update(index, "00:00:00");
+                displayReset(false);
+              }}
+            >
+              Reset
+            </Button>
+          )}
           <Button
             color="secondary"
             className={classes.button}
             size="small"
-            onClick={() => {
-              runTimer(false)
-              update(index, '00:00:00')
-              displayReset(false)
-            }}
+            onClick={editTimer}
           >
-            Reset
+            Edit
           </Button>
-        )}
-        <Button
-          color="secondary"
-          className={classes.button}
-          size="small"
-          onClick={editTimer}
-        >
-          Edit
-        </Button>
-      </CardActions>
-    </Card>
+        </CardActions>
+      </Card>
   );
 }
 
