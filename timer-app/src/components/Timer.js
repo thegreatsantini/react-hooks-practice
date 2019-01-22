@@ -35,7 +35,7 @@ const styles = theme => ({
 });
 
 function Timer(props) {
-  const { title, description, time, classes, editTimer, index, update } = props;
+  const { title, description, time, classes, editTimer,limit, index, update } = props;
   const [isRunning, runTimer] = useState(false);
   const [display, displayReset] = useState(false);
 
@@ -53,7 +53,7 @@ function Timer(props) {
               <div id="time">{time}</div>
             ) : (
               <div id="time">
-                <IncrementTime startingTime={time} />
+                <IncrementTime stop={limit} startingTime={time} />
               </div>
             )}
           </Typography>
@@ -76,6 +76,7 @@ function Timer(props) {
             </Typography>
           </div>
           <Divider />
+          {limit}
         </CardContent>
         <CardActions>
           {!isRunning ? (
