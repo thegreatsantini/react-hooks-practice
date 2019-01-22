@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import CardContent from "@material-ui/core/CardContent";
 import { Typography } from "@material-ui/core";
+import { toMS } from "../utils";
 
 const styles = theme => ({
   card: {
@@ -64,7 +65,7 @@ function EditTimerForm(props) {
   const handleSubmit = e => {
     e.preventDefault();
     edit(index, formData);
-    toggle()
+    toggle();
   };
   return (
     <Card className={classes.card}>
@@ -110,13 +111,14 @@ function EditTimerForm(props) {
             />
             <TextField
               id="limit"
-              placeholder={JSON.stringify(limit)}
-              onChange={e =>
+              placeholder={"current limit" + JSON.stringify(limit)}
+              onChange={e => {
+                console.log(e.target.value);
                 setValue({
                   ...formData,
-                  [e.target.id]: e.target.value
-                })
-              }
+                  [e.target.id]: toMS(e.target.value)
+                });
+              }}
               className={classes.textField}
             />
           </div>
@@ -145,9 +147,9 @@ function EditTimerForm(props) {
               variant="contained"
               color="primary"
               size="small"
-              onClick={e =>  {
-                remove(index)
-                toggle()
+              onClick={e => {
+                remove(index);
+                toggle();
               }}
             >
               delete

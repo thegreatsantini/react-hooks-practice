@@ -4,6 +4,8 @@ import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import { toMS } from "../utils";
+
 const styles = theme => ({
   container: {
     // display: "flex",
@@ -96,7 +98,7 @@ function TimerForm(props) {
               const setLimit = e.target.value.split('').filter(val => parseInt(val) || val === '.').join('')
                setValue({
                 ...formData,
-                [e.target.id]: setLimit
+                [e.target.id]: toMS(setLimit)
               });
             }}
             className={classes.textField}
