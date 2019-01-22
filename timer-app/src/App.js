@@ -31,21 +31,21 @@ function App(props) {
       title: "eggs",
       description: "runny yoke",
       time: "00:00:00",
-      limit: 0,
+      limit: 2000,
       completed: false
     },
     {
       title: "chicken",
       description: "cook some chicken",
       time: "00:00:00",
-      limit: 0,
+      limit: 1000,
       completed: false
     },
     {
       title: "run",
       description: "get healthy",
       time: "00:00:00",
-      limit: 0,
+      limit: 5000,
       completed: false
     }
   ]);
