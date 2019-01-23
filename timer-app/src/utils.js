@@ -27,11 +27,11 @@ export function uuidGen(a) {
 
 export const toMS = time => {
   if (time === 0) return 0;
-  if (typeof timer === String) {
+  if (typeof time == "string") {
     let splitTime = null;
-    if (time.inlcludes(":")) {
+    if (time.includes(":")) {
       splitTime = time.split(":");
-    } else if (time.inlcludes(".")) {
+    } else if (time.includes(".")) {
       splitTime = time.split(".");
     }
     const hours = parseInt(splitTime[0]) * 3600 * 1000;
