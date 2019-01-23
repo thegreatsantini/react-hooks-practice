@@ -111,7 +111,7 @@ function EditTimerForm(props) {
             />
             <TextField
               id="limit"
-              placeholder={"current limit" + JSON.stringify(limit)}
+              placeholder={"current limit " + JSON.stringify(limit)}
               onChange={e => {
                 console.log(e.target.value);
                 setValue({

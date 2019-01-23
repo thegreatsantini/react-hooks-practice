@@ -36,7 +36,7 @@ function App(props) {
     },
     {
       title: "chicken",
-      description: "cook some chicken",
+      description: "well done",
       time: "00:00:00",
       limit: 1000,
       completed: false
