@@ -7,6 +7,7 @@ import Divider from "@material-ui/core/Divider";
 import IncrementTime from "./IncrementTime";
 import { withStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
+import { millisecondsToHuman } from "../utils";
 
 const styles = theme => ({
   root: {
@@ -26,6 +27,10 @@ const styles = theme => ({
     justifyContent: "flex-start"
   },
   title: {},
+  limit: {
+    fontSize: 18,
+    marginTop: "10px"
+  },
   description: {
     fontSize: 18
   },
@@ -35,100 +40,110 @@ const styles = theme => ({
 });
 
 function Timer(props) {
-  const { title, description, time, classes, editTimer,limit, index, update } = props;
+  const {
+    title,
+    description,
+    time,
+    classes,
+    editTimer,
+    limit,
+    index,
+    update
+  } = props;
   const [isRunning, runTimer] = useState(false);
   const [display, displayReset] = useState(false);
 
-
   return (
-      <Card className={classes.root}>
-        <CardContent>
+    <Card className={classes.root}>
+      <CardContent>
+        <Typography
+          className={classes.time}
+          component="h2"
+          variant="h5"
+          gutterBottom
+        >
+          {!isRunning ? (
+            <div id="time">{time}</div>
+          ) : (
+            <div id="time">
+              <IncrementTime stop={limit} startingTime={time} />
+            </div>
+          )}
+        </Typography>
+        <div className={classes.info}>
           <Typography
-            className={classes.time}
+            className={classes.title}
             component="h2"
             variant="h5"
             gutterBottom
           >
-            {!isRunning ? (
-              <div id="time">{time}</div>
-            ) : (
-              <div id="time">
-                <IncrementTime stop={limit} startingTime={time} />
-              </div>
-            )}
+            {title}
           </Typography>
-          <div className={classes.info}>
-            <Typography
-              className={classes.title}
-              component="h2"
-              variant="h5"
-              gutterBottom
-            >
-              {title}
-            </Typography>
-            <Typography
-              className={classes.description}
-              component="h2"
-              variant="h5"
-              gutterBottom
-            >
-              {description}
-            </Typography>
-          </div>
-          <Divider />
-          {limit}
-        </CardContent>
-        <CardActions>
-          {!isRunning ? (
-            <Button
-              color="primary"
-              onClick={() => {
-                displayReset(true);
-                runTimer(true);
-              }}
-              className={classes.button}
-              size="small"
-            >
-              Start
-            </Button>
-          ) : (
-            <Button
-              color="inherit"
-              className={classes.button}
-              size="small"
-              onClick={function() {
-                const currentTime = document.getElementById("time");
-                update(index, currentTime.textContent);
-                runTimer(false);
-              }}
-            >
-              Stop
-            </Button>
-          )}
-          {display && (
-            <Button
-              color="secondary"
-              className={classes.button}
-              size="small"
-              onClick={() => {
-                runTimer(false);
-                update(index, "00:00:00");
-                displayReset(false);
-              }}
-            >
-              Reset
-            </Button>
-          )}
+          <Typography
+            className={classes.description}
+            component="h2"
+            variant="h5"
+            gutterBottom
+          >
+            {description}
+          </Typography>
+        </div>
+        <Divider />
+        <Typography className={classes.limit} component="h2" variant="h5">
+          Stop at {millisecondsToHuman(limit)}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        {!isRunning ? (
+          <Button
+            color="primary"
+            onClick={() => {
+              displayReset(true);
+              runTimer(true);
+            }}
+            className={classes.button}
+            size="small"
+          >
+            Start
+          </Button>
+        ) : (
+          <Button
+            color="inherit"
+            className={classes.button}
+            size="small"
+            onClick={function() {
+              const currentTime = document.getElementById("time");
+              update(index, currentTime.textContent);
+              runTimer(false);
+            }}
+          >
+            Stop
+          </Button>
+        )}
+        {display && (
           <Button
             color="secondary"
             className={classes.button}
             size="small"
-            onClick={editTimer}
+            onClick={() => {
+              runTimer(false);
+              update(index, "00:00:00");
+              displayReset(false);
+            }}
           >
-            Edit
+            Reset
           </Button>
-        </CardActions>
-      </Card>
+        )}
+        <Button
+          color="secondary"
+          className={classes.button}
+          size="small"
+          onClick={editTimer}
+        >
+          Edit
+        </Button>
+      </CardActions>
+    </Card>
   );
 }
 
