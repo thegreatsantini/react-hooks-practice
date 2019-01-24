@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import EditableTimer from "./components/EditableTimer";
 import TimerFormContainer from "./components/TimerFormContainer";
 import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-
+import { reducer } from "./reducers";
 const styles = theme => ({
   root: {
     margin: 0
@@ -25,60 +25,33 @@ const styles = theme => ({
   }
 });
 
+const initialState = [
+  {
+    title: "eggs",
+    description: "runny yoke",
+    time: "00:00:00",
+    limit: 2000
+  },
+  {
+    title: "chicken",
+    description: "well done",
+    time: "00:00:00",
+    limit: 1000
+  },
+  {
+    title: "run",
+    description: "beat my PR",
+    time: "00:00:00",
+    limit: 5000
+  }
+];
+
 function App(props) {
-  const [timers, timerForm] = useState([
-    {
-      title: "eggs",
-      description: "runny yoke",
-      time: "00:00:00",
-      limit: 2000,
-      completed: false
-    },
-    {
-      title: "chicken",
-      description: "well done",
-      time: "00:00:00",
-      limit: 1000,
-      completed: false
-    },
-    {
-      title: "run",
-      description: "get healthy",
-      time: "00:00:00",
-      limit: 5000,
-      completed: false
-    }
-  ]);
-  const addTimer = timer => {
-    const newTimer = [timer, ...timers];
-    timerForm(newTimer);
-  };
-  const editTimer = (i, changes) => {
-    const applyChanges = timers.map((val, index) => {
-      if (index === i) {
-        return changes;
-      }
-      return val;
-    });
-    timerForm(applyChanges);
-  };
-  const removeTimer = index => {
-    const applyChanges = timers.filter((val, i) => i !== index);
-    timerForm(applyChanges);
-  };
-  const updateTime = (index, newTime) => {
-    const applyChanges = timers.map((val, i) => {
-      if (index === i) {
-        return {
-          ...val,
-          time: newTime
-        };
-      } else {
-        return val;
-      }
-    });
-    timerForm(applyChanges);
-  };
+  const [state, dispatch] = useReducer(reducer, initialState, {
+    type: "initial",
+    payload: "initial payload"
+  });
+
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -92,12 +65,12 @@ function App(props) {
           Timer
         </Typography>
         <Divider style={{ marginBottom: "20px" }} />
-        <TimerFormContainer add={addTimer} />
-        {timers.map((timer, i) => (
+        <TimerFormContainer
+          reducers={(type, payload) => dispatch(type, payload)}
+        />
+        {state.map((timer, i) => (
           <EditableTimer
-            remove={i => removeTimer(i)}
-            edit={(i, changes) => editTimer(i, changes)}
-            updateTime={(i, time) => updateTime(i, time)}
+            reducers={(type, payload) => dispatch(type, payload)}
             key={i}
             index={i}
             timer={timer}

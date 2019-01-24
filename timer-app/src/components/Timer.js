@@ -45,10 +45,10 @@ function Timer(props) {
     description,
     time,
     classes,
-    editTimer,
     limit,
     index,
-    update
+    toggleEdit,
+    reducers
   } = props;
   const [isRunning, runTimer] = useState(false);
   const [display, displayReset] = useState(false);
@@ -113,7 +113,13 @@ function Timer(props) {
             size="small"
             onClick={function() {
               const currentTime = document.getElementById("time");
-              update(index, currentTime.textContent);
+              reducers({
+                type: "update",
+                payload: {
+                  index,
+                  currentTime: currentTime.textContent
+                }
+              });
               runTimer(false);
             }}
           >
@@ -127,8 +133,14 @@ function Timer(props) {
             size="small"
             onClick={() => {
               runTimer(false);
-              update(index, "00:00:00");
               displayReset(false);
+              reducers({
+                type: "update",
+                payload: {
+                  index,
+                  currentTime: "00:00:00"
+                }
+              });
             }}
           >
             Reset
@@ -138,7 +150,7 @@ function Timer(props) {
           color="secondary"
           className={classes.button}
           size="small"
-          onClick={editTimer}
+          onClick={toggleEdit}
         >
           Edit
         </Button>

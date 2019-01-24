@@ -4,7 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { toMS } from "../utils";
+import TimeInput from "./TimeInput";
 
 const styles = theme => ({
   container: {
@@ -36,21 +36,22 @@ const styles = theme => ({
 });
 
 function TimerForm(props) {
+  const { reducers } = props;
   const [formData, setValue] = useState({
     title: "",
     description: "",
-    time: '00:00:00',
-    isEditing: false,
-    completed: false
+    time: "00:00:00"
   });
   let [currentField, stepThrough] = useState(0);
   const handleSubmit = e => {
-    const { add } = props;
     e.preventDefault();
     if (currentField < 2) {
       stepThrough(currentField + 1);
     } else {
-      add(formData);
+      reducers({
+        type: "add",
+        payload: { formData }
+      });
       stepThrough(0);
       toggle();
     }
@@ -91,17 +92,14 @@ function TimerForm(props) {
           />
         )}
         {currentField === 2 && (
-          <TextField
-            id="limit"
-            label="limit"
-            onChange={e => {
-              const setLimit = e.target.value.split('').filter(val => parseInt(val) || val === '.').join('')
-               setValue({
+          <TimeInput
+            initialLimit={0}
+            setLimit={newTime => {
+              setValue({
                 ...formData,
-                [e.target.id]: toMS(setLimit)
+                limit: parseInt(newTime)
               });
             }}
-            className={classes.textField}
           />
         )}
         {currentField < 2 ? (

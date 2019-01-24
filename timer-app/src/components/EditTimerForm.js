@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import CardContent from "@material-ui/core/CardContent";
 import { Typography } from "@material-ui/core";
-import { toMS } from "../utils";
+import TimeInput from "./TimeInput";
 
 const styles = theme => ({
   card: {
@@ -50,21 +50,19 @@ function EditTimerForm(props) {
     description,
     limit,
     time,
-    edit,
     index,
-    remove
+    reducers
   } = props;
   const [formData, setValue] = useState({
     title,
     description,
     time,
-    limit,
-    completed: false
+    limit
   });
 
   const handleSubmit = e => {
     e.preventDefault();
-    edit(index, formData);
+    reducers({ type: "edit", payload: { index, formData } });
     toggle();
   };
   return (
@@ -95,7 +93,6 @@ function EditTimerForm(props) {
                 })
               }
               className={classes.textField}
-              //   margin="normal"
             />
 
             <TextField
@@ -109,17 +106,14 @@ function EditTimerForm(props) {
               }
               className={classes.textField}
             />
-            <TextField
-              id="limit"
-              placeholder={"current limit " + JSON.stringify(limit)}
-              onChange={e => {
-                console.log(e.target.value);
+            <TimeInput
+              initialLimit={limit}
+              setLimit={newTime => {
                 setValue({
                   ...formData,
-                  [e.target.id]: toMS(e.target.value)
+                  limit: parseInt(newTime)
                 });
               }}
-              className={classes.textField}
             />
           </div>
           <div className={classes.buttonContainer}>
@@ -148,7 +142,12 @@ function EditTimerForm(props) {
               color="primary"
               size="small"
               onClick={e => {
-                remove(index);
+                reducers({
+                  type: "remove",
+                  payload: {
+                    index
+                  }
+                });
                 toggle();
               }}
             >
