@@ -26,17 +26,8 @@ export function uuidGen(a) {
 }
 
 export const toMS = time => {
-  if (time === 0) return 0;
-  if (typeof time == "string") {
-    let splitTime = null;
-    if (time.includes(":")) {
-      splitTime = time.split(":");
-    } else if (time.includes(".")) {
-      splitTime = time.split(".");
-    }
-    const hours = parseInt(splitTime[0]) * 3600 * 1000;
-    const minutes = parseInt(splitTime[1]) * 1000;
-    return hours + minutes + parseInt(splitTime[2]);
-  }
-  return time * 3600 * 1000;
+  const splitTime = time.split(":");
+  const hours = parseInt(splitTime[0]) * 3600 * 1000;
+  const minutes = parseInt(splitTime[1]) * 1000;
+  return hours + minutes + parseInt(splitTime[2]);
 };
