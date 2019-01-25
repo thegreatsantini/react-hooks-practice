@@ -1,28 +1,29 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import SearchInput from './components/SearchInput'
+import GifCard from './components/GifCard'
 import './App.css';
 
-class App extends Component {
-  render() {
+function query(search) {
+  const query = fetch(`http://api.giphy.com/v1/gifs/search?q=${search}&api_key=${process.env.REACT_APP_API_KEY}`)
+  query.then(data => data.json()).then(res => console.log(res))
+  return search
+}
+function App(props) {
+  const [search, setSearch] = useState('')
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+        <div className="App-header">
+          <SearchInput
+          handleChange={ (value) => {
+            setSearch(value)
+          } } />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            {query(search)}
           </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+          <GifCard />
+        </div>
       </div>
     );
   }
-}
 
 export default App;
