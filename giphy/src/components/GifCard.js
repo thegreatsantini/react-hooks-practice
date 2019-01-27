@@ -1,33 +1,34 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
+import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardMedia from "@material-ui/core/CardMedia";
-import { CardContent } from "@material-ui/core";
-
-const styles = theme => ({
+import Display from "./Display";
+import Grid from "@material-ui/core/Grid";
+// import Placholder from "./Placholder";
+const styles = {
   card: {
-    maxWidth: 400
+    maxWidth: 345
   },
   media: {
-    height: 0,
-    paddingTop: "56.25%" // 16:9
+    // ⚠️ object-fit is not supported by IE 11.
+    objectFit: "cover"
   }
-});
+};
 
 function GifCard(props) {
-  const { classes } = props;
-
+  const { classes, ids } = props;
   return (
-    <Card className={classes.card}>
-      <CardContent>
-        <CardMedia
-          className={classes.media}
-          image="https://images.homedepot-static.com/productImages/612ae505-9daf-45c3-ac16-67f97dcb251d/svn/globalrose-flower-bouquets-prime-100-red-roses-64_1000.jpg"
-          title="Paella dish"
-        />
-      </CardContent>
-    </Card>
+    <Grid container spacing={24}>
+      {ids.map((val, i) => {
+        return (
+            <Display key={i} id={val} />
+        );
+      })}
+    </Grid>
   );
 }
+
+GifCard.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
 export default withStyles(styles)(GifCard);
