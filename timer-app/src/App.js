@@ -1,21 +1,27 @@
 import React, { useReducer } from "react";
 import EditableTimer from "./components/EditableTimer";
 import TimerFormContainer from "./components/TimerFormContainer";
-import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import { reducer } from "./reducers";
 const styles = theme => ({
   root: {
-    margin: 0
-  },
-  paper: {
+    margin: "0 auto",
     backgroundColor: "#f2efe8",
     ...theme.mixins.gutters(),
+    height: "100%",
     paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    margin: "8px"
+    paddingBottom: theme.spacing.unit * 2
+  },
+  paper: { 
+    // margin: "8px"
+  },
+  scroller: {
+    margin: "0 auto",
+    height: "100%",
+    width: "300px",
+    overflow: "auto"
   },
   title: {
     width: "100%",
@@ -43,6 +49,24 @@ const initialState = [
     description: "beat my PR",
     time: "00:00:00",
     limit: 5000
+  },
+  {
+    title: "run",
+    description: "beat my PR",
+    time: "00:00:00",
+    limit: 5000
+  },
+  {
+    title: "run",
+    description: "beat my PR",
+    time: "00:00:00",
+    limit: 5000
+  },
+  {
+    title: "run",
+    description: "beat my PR",
+    time: "00:00:00",
+    limit: 5000
   }
 ];
 
@@ -55,7 +79,7 @@ function App(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper} elevation={8}>
+      <div className={classes.paper}>
         <Typography
           className={classes.title}
           component="h2"
@@ -68,6 +92,8 @@ function App(props) {
         <TimerFormContainer
           reducers={(type, payload) => dispatch(type, payload)}
         />
+      </div>
+      <div className={classes.scroller}>
         {state.map((timer, i) => (
           <EditableTimer
             reducers={(type, payload) => dispatch(type, payload)}
@@ -76,7 +102,7 @@ function App(props) {
             timer={timer}
           />
         ))}
-      </Paper>
+      </div>
     </div>
   );
 }
